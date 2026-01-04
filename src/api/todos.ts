@@ -21,7 +21,6 @@ export const createTodo = (title: string) => {
   return client.post<Todo>('/todos', newTodo);
 };
 
-// --- ДОБАВИТЬ ВОТ ЭТУ ЧАСТЬ ---
 export const updateTodo = ({ id, ...data }: Todo) => {
   return client.patch<Todo>(`/todos/${id}`, data);
 };
