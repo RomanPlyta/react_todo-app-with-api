@@ -9,6 +9,7 @@ import {
 } from './api/todos';
 import { Todo } from './types/Todo';
 import { FilterType } from './types/FilterType';
+import { ErrorMessage } from './types/ErrorMessage';
 
 import { TodoList } from './components/TodoList';
 import { Footer } from './components/Footer';
@@ -29,7 +30,7 @@ export const App: React.FC = () => {
     getTodos()
       .then(setTodos)
       .catch(() => {
-        setError('Unable to load todos');
+        setError(ErrorMessage.Load);
       });
   }, []);
 
@@ -50,7 +51,7 @@ export const App: React.FC = () => {
     const normalizedTitle = newTodoTitle.trim();
 
     if (!normalizedTitle) {
-      setError('Title should not be empty');
+      setError(ErrorMessage.EmptyTitle);
 
       return;
     }
@@ -78,7 +79,7 @@ export const App: React.FC = () => {
       })
       .catch(() => {
         setTodos(prevTodos => prevTodos.filter(todo => todo.id !== tempId));
-        setError('Unable to add a todo');
+        setError(ErrorMessage.Add);
       })
       .finally(() => {
         setProcessingIds(prev => prev.filter(id => id !== tempId));
@@ -101,7 +102,7 @@ export const App: React.FC = () => {
         })
         // eslint-disable-next-line @typescript-eslint/no-shadow
         .catch(error => {
-          setError('Unable to update a todo');
+          setError(ErrorMessage.Update);
           throw error;
         })
         .finally(() => {
@@ -142,7 +143,7 @@ export const App: React.FC = () => {
         newTodoField.current?.focus();
       })
       .catch(() => {
-        setError('Unable to delete a todo');
+        setError(ErrorMessage.Delete);
         newTodoField.current?.focus();
       })
       .finally(() => {
@@ -176,7 +177,7 @@ export const App: React.FC = () => {
         const hasError = results.some(res => res === null);
 
         if (hasError) {
-          setError('Unable to update a todo');
+          setError(ErrorMessage.Update);
         }
 
         setTodos(prevTodos =>
@@ -208,7 +209,7 @@ export const App: React.FC = () => {
         const hasErrors = results.some(id => id === null);
 
         if (hasErrors) {
-          setError('Unable to delete a todo');
+          setError(ErrorMessage.Delete);
         }
 
         setTodos(prevTodos =>
